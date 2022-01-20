@@ -55,7 +55,7 @@ shinyServer(
     
     
 
-    
+    waiter::waiter_hide()
     
     
     # End of Server; #####

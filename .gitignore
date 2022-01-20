@@ -42,6 +42,7 @@ vignettes/*.pdf
 *.sqlite
 webcrawler/*.sqlite
 
+rsconnect/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

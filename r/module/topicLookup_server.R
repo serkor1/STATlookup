@@ -15,7 +15,9 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
           # Filter data;
           subheader = subheader_data %>% filter(
             header_id == !!search_query()
-          ) %>% collect()
+          ) %>% collect() %>% mutate(
+            name = str_trunc(name, width = 40, side = "right")
+          )
           
           # Generate Choices;
           choices = map(
@@ -35,7 +37,10 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
               choices = choices,
               options = list(
                 title = "Pick subtopic",
-                `live-search` = TRUE)
+                `live-search` = TRUE,
+                width = 'auto',
+                size = 10
+                ),width = 'auto'
             )
             
           })
@@ -76,8 +81,11 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
               choices = choices,
               options = list(
                 title = "Pick Variable:",
-                `live-search` = TRUE
-              )
+                `live-search` = TRUE,
+                width = 'auto',
+                size = 10
+              ),
+              width = 'auto'
             )
 
           })

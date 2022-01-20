@@ -11,23 +11,21 @@
 bs4DashPage(
   dark = TRUE,
   header = bs4DashNavbar(
-    title = tags$li(
-      class = "brand-link",
-      span(icon("project-diagram"), "STAT Lookup V1.0"),
-      align = "center"
-    )
-    
+    title = bs4DashBrand(
+      title = div(icon("project-diagram"), strong("STAT Lookup V1.0"), align = "center"),
+      color = "primary"
+    ),skin = "dark"
     
   ),
   
   sidebar = bs4DashSidebar(
-    skin = "light",
+    
+    skin = "dark",
     fixed = TRUE,
     width = "350px",
     collapsed = FALSE,
     minified = FALSE,
     status = "lightblue",
-    
     db_counter(),
     
     
@@ -65,7 +63,9 @@ bs4DashPage(
       label = NULL,
       choices = header_choices(),
       options = list(
-        title = "Pick Topic")
+        title = "Pick Topic",
+        width = 'auto'),
+      width = 'auto'
     ),
     
     topicLookup_sidebar("topic_lookup")
@@ -91,6 +91,6 @@ bs4DashPage(
       "Github",
       target = "_blank"
     )
-  )
+  ),preloader = list()
   
 )
