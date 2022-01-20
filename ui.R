@@ -1,0 +1,96 @@
+#
+# This is the user-interface definition of a Shiny web application. You can
+# run the application by clicking 'Run App' above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+
+bs4DashPage(
+  dark = TRUE,
+  header = bs4DashNavbar(
+    title = tags$li(
+      class = "brand-link",
+      span(icon("project-diagram"), "STAT Lookup V1.0"),
+      align = "center"
+    )
+    
+    
+  ),
+  
+  sidebar = bs4DashSidebar(
+    skin = "light",
+    fixed = TRUE,
+    width = "350px",
+    collapsed = FALSE,
+    minified = FALSE,
+    status = "lightblue",
+    
+    db_counter(),
+    
+    
+    
+    hr(),
+    
+    column(
+      width = 12,
+      p(strong("Search by Variable"))
+    ),
+    
+
+    searchInput(
+      inputId = "global_search",
+      label = NULL,
+      btnSearch = icon("search", fa_verify = FALSE),
+     # btnReset = icon("remove", fa_verify = FALSE),
+      placeholder = "Search for variable, eg. RECNUM",
+      width = "100%"
+    ),
+    
+    
+    
+    hr(),
+    
+    column(
+      width = 12,
+      p(strong("Or search by Topic"))
+    ),
+    
+    
+    
+    pickerInput(
+      inputId = "search_header",
+      label = NULL,
+      choices = header_choices(),
+      options = list(
+        title = "Pick Topic")
+    ),
+    
+    topicLookup_sidebar("topic_lookup")
+    
+  ),
+  
+  body = bs4DashBody(
+    useShinyjs(),
+    # Search Output
+    # from the global search
+    variableLookup_UI('var_lookup'),
+    topicLookup_ui('topic_lookup')
+    
+  ),
+  
+  footer = bs4DashFooter(
+    fixed = TRUE,
+    left = NULL,
+    right = tags$a(
+      icon("github"),
+      href = "https://github.com/serkor1/STATlookup",
+      class = "my_class",
+      "Github",
+      target = "_blank"
+    )
+  )
+  
+)
