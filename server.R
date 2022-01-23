@@ -16,18 +16,15 @@ shinyServer(
     # Establish Connection; ####
     # to server and Silently load
     # Header and Subheader data
-    connection <- DBI::dbConnect(
-      RSQLite::SQLite(),
-      dbname = "dstTIMES.sqlite"
-    )
+    
     
     # Header Data:
     header_data <- tbl(
-      connection, 'header'
+      db_connection, 'header'
     )
     
     subheader_data <- tbl(
-      connection, 'subheader'
+      db_connection, 'subheader'
     )
     
     
@@ -37,7 +34,7 @@ shinyServer(
       "var_lookup",
       subheader_data = subheader_data,
       header_data = header_data,
-      connection = connection,
+      connection = db_connection,
       search_query = reactive(input$global_search)
     )
 
@@ -45,7 +42,7 @@ shinyServer(
       "topic_lookup",
       subheader_data = subheader_data,
       header_data = header_data,
-      connection = connection,
+      connection = db_connection,
       search_query = reactive(input$search_header)
     )
     

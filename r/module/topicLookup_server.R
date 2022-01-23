@@ -1,8 +1,11 @@
-topicLookup_server <- function(id, connection = NULL, header_data = NULL, subheader_data =NULL,search_query =NULL) {
+topicLookup_server <- function(id, connection = NULL, header_data = NULL, subheader_data =NULL, search_query =NULL) {
   moduleServer(
     id, function(input,output,session) {
       
       ns <- NS(id)
+      
+      
+      
       
       # Create Subheader List
       # based on header input
@@ -12,13 +15,17 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
         ignoreInit = TRUE,
         {
           
+          message("In TopicLookup Server Module!")
+          message("Search Header ID: ", paste(search_query()))
+          
+          
           # Filter data;
           subheader = subheader_data %>% filter(
             header_id == !!search_query()
           ) %>% collect() %>% mutate(
             name = str_trunc(name, width = 40, side = "right")
           )
-          
+
           # Generate Choices;
           choices = map(
             1:nrow(subheader),
@@ -55,13 +62,17 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
         ignoreNULL = TRUE,
         ignoreInit = TRUE,
         {
-          
           req(input$search_subheader)
+          
+          message("Search Subheader ID: ", paste(input$search_subheader))
 
           # Filter data;
-          variable_list =  tbl(connection, "variable") %>%
-            filter(subheader_id == !!input$search_subheader & header_id == !!search_query()) %>%
-            collect()
+          # Assign with <<- so it
+          # transfers to other observer
+          variable_list <<- tbl(connection, "variable") %>%
+              filter(subheader_id == !!input$search_subheader & header_id == !!search_query()) %>%
+              collect()
+            
 
           # Generate Choices;
           choices = map(
@@ -74,6 +85,8 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
           ) %>% set_names(variable_list$var)
 
           output$variable_list = renderUI({
+            
+            req(input$search_subheader)
 
             pickerInput(
               inputId = ns("search_variable"),
@@ -101,20 +114,21 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
         ignoreInit = TRUE,
         {
           
+          # Require some input;
+          # from search variables
           req(input$search_variable)
-          
-          
+          message("Search Variable ID: ", paste(input$search_variable))
+          # Isolate the data so it does not take 
+          # dependency on above observer
+          unique_variable <- isolate({
+            variable_list %>%
+              filter(id == !!input$search_variable) %>%
+              collect()
+            }) 
           
           
           output$variable_output <- renderUI(
             {
-              req(input$search_variable)
-              
-              variable_list =  tbl(connection, "variable") %>%
-                filter(subheader_id == !!input$search_subheader & header_id == !!search_query() & id == !!input$search_variable) %>%
-                collect()
-              
-              
               
               bs4Card(
                 title = "Information",
@@ -122,24 +136,27 @@ topicLookup_server <- function(id, connection = NULL, header_data = NULL, subhea
                 status = "primary",
                 closable = TRUE,
                 collapsible = TRUE,
+                icon = icon("info-circle", verify_fa = FALSE),
                 
                 
                 fluidRow(
                   
                   variable_info(
-                    variable_list
+                    unique_variable
                   ),
                   variable_value(
-                    variable_list
+                    unique_variable
                   )
                   
                   
                   
-                ),footer = span("Read more at", tags$a("DST",icon = icon("link", verify_fa = FALSE),href = variable_list$link, target = "_blank"))
+                ),footer = span("Read more", tags$a(icon("external-link-alt", verify_fa = FALSE),"here",href = unique_variable$link, target = "_blank"))
                 
                 
                 
               )
+                
+              
               
               
               

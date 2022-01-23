@@ -20,6 +20,11 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
           
           req(search_query())
           
+          
+          message("\nIn VariableLookup server module!")
+          message("--------------------------------")
+          message("Search Query: ", paste(search_query()))
+          
           updateCard(
             "search_box",
             action = "restore"
@@ -40,11 +45,16 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
 
           # Search Results;
           output$search_output <- renderUI({
+            
+            
             bs4Card(
               title = paste("Found", count_variable, "variables"),
               width = 12,
+              elevation = 0,
+              maximizable = FALSE,
               id    = ns("search_box"),
-              status = "warning",
+              status = "primary",
+              icon = icon("search", verify_fa = FALSE),
               collapsible = TRUE,
               div(style = "width: auto; overflow-y: scroll; height:300px",
               1:count_variable %>% map(
@@ -66,11 +76,17 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
 
 
                   infoBox(
-                    title = paste("Found in", header_name, "under", subheader_name),
-                    subtitle = actionLink(inputId = ns(paste0("result_", i)), label = paste("Variable:", variable)),
-                    color = "lightblue",fill = TRUE,
+                    title = HTML(paste("In", strong(subheader_name), "under", strong(header_name))),
+                    # subtitle = actionLink(
+                    #   inputId = ns(paste0("result_", i)),
+                    #   label = paste("Variable:", variable),
+                    #   style = "color: #fff"
+                    #   ),
+                    subtitle = HTML(paste((strong("Found Variable:")), variable)),
+                    color = "primary",fill = TRUE,
                     width = 12,
-                    icon = icon("search", verify_fa = FALSE)
+                    icon = tags$i(
+                      actionLink(icon("external-link-alt", verify_fa = FALSE, style = "color: #fff"), inputId = ns(paste0("result_", i)), label = NULL))
                   )
 
 
@@ -94,6 +110,10 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
                     "search_box",
                     action = "toggle"
                   )
+                  
+                  message("\nIn VariableLookup server module!")
+                  message("--------------------------------")
+                  message("Open Search Result ", paste(input[[paste0("result_", i)]]))
 
 
                   # parameters
@@ -123,6 +143,7 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
                         id = ns("result"),
                         closable = TRUE,
                         collapsible = TRUE,
+                        icon = icon("info-circle", verify_fa = FALSE),
 
                         fluidRow(
                           variable_info(main_data),
@@ -130,7 +151,7 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
                         ),
 
 
-                        footer = span("Read more at", tags$a("DST",icon = icon("link", verify_fa = FALSE),href = main_data$link, target = "_blank"))
+                        footer = span("Read more", tags$a(icon("external-link-alt", verify_fa = FALSE),"here",href = main_data$link, target = "_blank"))
 
                       )
 

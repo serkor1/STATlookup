@@ -1,14 +1,11 @@
-# Static Parameters
+# Static Parameters; ####
 
 
 # Database Counter;
-db_counter <- function() {
+db_counter <- function(connection = db_connection) {
   
-  # Connection to DB; ####
-  connection <- DBI::dbConnect(
-    RSQLite::SQLite(),
-    dbname = "dstTIMES.sqlite"
-  )
+  message("Attempting to load db_counter()")
+  
 
   variable_data <- tbl(connection, "variable")
 
@@ -17,10 +14,6 @@ db_counter <- function() {
     unique_variable = n_distinct(var)
   ) %>% collect()
 
-
-  variable_data %>% summarise(
-    unique_variable = n_distinct(link)
-  ) %>% collect()
 
   # Unique Datasets as per header ID
   unique_datasets <- variable_data %>% summarise(
@@ -33,12 +26,12 @@ db_counter <- function() {
 
 
 
-  fluidRow(
+  generate_ui <- fluidRow(
     column(
       width = 4,
       descriptionBlock(
         number = unique_variables,
-        numberColor = "success",
+        numberColor = "primary",
         text = NULL,
         header = "Unique Variables",
         rightBorder = TRUE,
@@ -72,23 +65,24 @@ db_counter <- function() {
   )
   
   
+  message("db_counter() is loaded!")
   
+  
+  return(
+    generate_ui
+  )
   
 }
 
 
 
-header_choices <- function() {
+header_choices <- function(connection = db_connection) {
   
   # Set_names gives the 
   # shown name
   # while map gives the actual
   # search value
   # Connection to DB; ####
-  connection <- DBI::dbConnect(
-    RSQLite::SQLite(),
-    dbname = "dstTIMES.sqlite"
-  )
   
   header_data <- tbl(connection, "header") %>%
     collect()
@@ -100,7 +94,7 @@ header_choices <- function() {
       header_data$id[i]
       
     }
-  ) %>% set_names(header_data$name)
+  ) %>% set_names(str_trunc(header_data$name, width = 40, side = "right"))
   
   
   

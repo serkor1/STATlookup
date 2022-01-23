@@ -12,8 +12,8 @@ bs4DashPage(
   dark = TRUE,
   header = bs4DashNavbar(
     title = bs4DashBrand(
-      title = div(icon("project-diagram"), strong("STAT Lookup V1.0"), align = "center"),
-      color = "primary"
+    title = div(icon("project-diagram"), strong("STAT Lookup V1.0"), align = "center"),
+      color = "primary",
     ),skin = "dark"
     
   ),
@@ -27,48 +27,50 @@ bs4DashPage(
     minified = FALSE,
     status = "lightblue",
     db_counter(),
-    
-    
-    
     hr(),
     
-    column(
-      width = 12,
-      p(strong("Search by Variable"))
-    ),
-    
+    bs4SidebarMenu(
+      id = "by_dataset",
+      flat = TRUE,
+      compact = FALSE,
+      column(
+        width = 12,
+        p(strong("Search by Variable"))
+      ),
+      
+      
+      searchInput(
+        inputId = "global_search",
+        label = NULL,
+        btnSearch = icon("search", fa_verify = FALSE),
+        # btnReset = icon("remove", fa_verify = FALSE),
+        placeholder = "Search for variable, eg. RECNUM",
+        width = "100%"
+      ),
 
-    searchInput(
-      inputId = "global_search",
-      label = NULL,
-      btnSearch = icon("search", fa_verify = FALSE),
-     # btnReset = icon("remove", fa_verify = FALSE),
-      placeholder = "Search for variable, eg. RECNUM",
-      width = "100%"
-    ),
-    
-    
-    
-    hr(),
-    
-    column(
-      width = 12,
-      p(strong("Or search by Topic"))
-    ),
-    
-    
-    
-    pickerInput(
-      inputId = "search_header",
-      label = NULL,
-      choices = header_choices(),
-      options = list(
-        title = "Pick Topic",
-        width = 'auto'),
-      width = 'auto'
-    ),
-    
-    topicLookup_sidebar("topic_lookup")
+
+
+      hr(),
+
+      column(
+        width = 12,
+        p(strong("Or search by Topic"))
+      ),
+      
+      pickerInput(
+        inputId = "search_header",
+        label = NULL,
+        choices = header_choices(),
+        options = list(
+          title = "Pick Topic",
+          width = 'auto'),
+        width = 'auto'
+      ),
+      
+      topicLookup_sidebar("topic_lookup")
+
+
+    )
     
   ),
   

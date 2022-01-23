@@ -3,10 +3,20 @@ variable_info <- function(variable_data) {
   
   #' @param variable_data a tibble with variable information
   #' @return A UI with converted HTML texts
-  information <- variable_data$html %>% 
-    read_html() %>% 
-    html_elements('p') %>% 
-    html_text()
+  if (variable_data$header_id > 16) {
+    information <- variable_data$html %>% 
+      read_html() %>%
+      html_elements('div.col-md-4.col-12.result') %>%
+      html_text()
+  } else {
+    information <- variable_data$html %>% 
+      read_html() %>%
+      html_elements('p') %>%
+      html_text()
+    
+  }
+  
+ 
   
   
   bs4Card(
@@ -32,7 +42,7 @@ variable_info <- function(variable_data) {
         
         information[[3]]
         
-        )
+    )
     
     
   )
@@ -49,23 +59,23 @@ variable_value <- function(variable_data) {
   
   
   
-      bs4Card(
-        title = "Values",
-        width = 8,
-        collapsible = FALSE,
-        headerBorder = TRUE,
-        div(style = "width: auto; overflow-y: scroll; height:300px",
-            renderTable(
-              information,
-              width = "100%",
-            )
-            )
-        
-        
-        
-      )
-      
- 
+  bs4Card(
+    title = "Values",
+    width = 8,
+    collapsible = FALSE,
+    headerBorder = TRUE,
+    div(style = "width: auto; overflow-y: scroll; height:300px",
+        renderTable(
+          information,
+          width = "100%",
+        )
+    )
+    
+    
+    
+  )
+  
+  
   
   
   
