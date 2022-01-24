@@ -12,9 +12,10 @@ bs4DashPage(
   dark = TRUE,
   header = bs4DashNavbar(
     title = bs4DashBrand(
-    title = div(icon("project-diagram"), strong("STAT Lookup V1.0"), align = "center"),
+    title = div(icon("project-diagram"), strong("STAT Lookup"), align = "center"),
       color = "primary",
     ),skin = "dark"
+    
     
   ),
   
@@ -31,13 +32,10 @@ bs4DashPage(
     
     bs4SidebarMenu(
       id = "by_dataset",
-      flat = TRUE,
-      compact = FALSE,
-      column(
-        width = 12,
-        p(strong("Search by Variable"))
-      ),
+      flat = FALSE,
+      compact = TRUE,
       
+      sidebarHeader("Search by Variable"),
       
       searchInput(
         inputId = "global_search",
@@ -47,15 +45,8 @@ bs4DashPage(
         placeholder = "Search for variable, eg. RECNUM",
         width = "100%"
       ),
-
-
-
-      hr(),
-
-      column(
-        width = 12,
-        p(strong("Or search by Topic"))
-      ),
+      
+      sidebarHeader("Or search by Topic"),
       
       pickerInput(
         inputId = "search_header",
@@ -85,7 +76,7 @@ bs4DashPage(
   
   footer = bs4DashFooter(
     fixed = TRUE,
-    left = NULL,
+    left = version,
     right = tags$a(
       icon("github"),
       href = "https://github.com/serkor1/STATlookup",

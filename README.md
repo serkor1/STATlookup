@@ -11,7 +11,7 @@ An unified and efficient database of all variables found in the [TIMES](https://
 
 1. Build the Database
 
-The database will be located in the main folder as `statDB.sqlite`. To build `statDB.sqlite`, you have to run `dstCollectRaw.py`, `lprCollectRaw.py` and `collectDB.py`
+The database will be located in the main folder as `statDB.sqlite`. To build `statDB.sqlite`, you have to run `dstCollectRaw.py`, `lprCollectRaw.py` and `collectDB.py` in that order.
 
 2. Run the application
 

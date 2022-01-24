@@ -1,5 +1,9 @@
 rm(list = ls()); gc()
 
+# Version
+version <- "Version b1.0"
+
+
 library(shiny,quietly = TRUE, warn.conflicts = FALSE)
 library(shinyWidgets,quietly = TRUE, warn.conflicts = FALSE)
 library(bs4Dash,quietly = TRUE, warn.conflicts = FALSE)

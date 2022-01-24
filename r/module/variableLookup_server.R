@@ -73,7 +73,6 @@ variableLookup_server <- function(id, connection, header_data, subheader_data,se
                       variable = found_variable$var[i]
                       
                       
-                      
                       infoBox(
                         title = HTML(paste("In", strong(subheader_name), "under", strong(header_name))),
                         # subtitle = actionLink(
