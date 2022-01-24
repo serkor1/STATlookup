@@ -12,11 +12,13 @@ variable_info <- function(variable_data) {
     information <- variable_data$html %>% 
       read_html() %>%
       html_elements('p') %>%
-      html_text()
+      html_text2() %>% 
+      str_remove_all(pattern = "\\r") %>% 
+      str_trim()
     
   }
   
- 
+  
   
   
   bs4Card(
