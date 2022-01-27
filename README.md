@@ -2,9 +2,18 @@
 [![](https://img.shields.io/badge/Shiny-shinyapps.io-blue?style=flat&labelColor=white&logo=RStudio&logoColor=blue)](https://serkor.shinyapps.io/STATlookup/)
 <!-- badges: end -->
 
+
+
+
 ## STATlookup
 
-An unified and efficient database of all variables found in the [TIMES](https://www.dst.dk/da/Statistik/dokumentation/Times) and [eSundhed](https://www.esundhed.dk/Dokumentation?) databases.
+A unified and efficient database of all variables found in the danish statistical databases. It includes all variables found in the following databses
+
+1. [TIMES](https://www.dst.dk/da/Statistik/dokumentation/Times), Statistics Denmark
+2. [High Quality Research Statistics](https://www.dst.dk/da/TilSalg/Forskningsservice/Dokumentation/hoejkvalitetsvariable), Statistics Denmark
+3. [Health Specific Statistics](https://www.esundhed.dk/Dokumentation), Sundhedsstyrelsen
+
+A live demo can be found at [ShinyApps](https://serkor.shinyapps.io/STATlookup/)
 
 
 ### Installation Guide
