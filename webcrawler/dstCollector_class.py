@@ -75,14 +75,14 @@ class dstCollector:
             try:
                 list_url = re.findall(
                     string  = str(self.content[1]),
-                    pattern = "<li><a href=[\"\'](.*?)[\"\']"
+                    pattern = "<a href=[\"\'](.*?)[\"\']" # HAD LI
                 )
             except:
                 list_url = []
         else:
             list_url = re.findall(
                 string=str(self.content[0]),
-                pattern="<li><a href=[\"\'](.*?)[\"\']"
+                pattern="<a href=[\"\'](.*?)[\"\']"
             )
 
         # Modify each URL to contain
@@ -129,8 +129,6 @@ class dstCollector:
         container = []
         iteration = 0
         for url in url_list:
-            iteration += 1
-            print("Iteration", iteration, "of", len(url_list), "iterations!")
 
             html_content = BeautifulSoup(
                 requests.get(url).content,

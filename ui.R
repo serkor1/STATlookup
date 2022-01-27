@@ -17,6 +17,15 @@ bs4DashPage(
     ),skin = "dark"
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
   ),
   
   sidebar = bs4DashSidebar(
@@ -30,13 +39,14 @@ bs4DashPage(
     db_counter(),
     hr(),
     
+    
+    
     bs4SidebarMenu(
       id = "by_dataset",
       flat = FALSE,
       compact = TRUE,
       
       sidebarHeader("Search by Variable"),
-      
       searchInput(
         inputId = "global_search",
         label = NULL,
@@ -45,6 +55,7 @@ bs4DashPage(
         placeholder = "Search for variable, eg. RECNUM",
         width = "100%"
       ),
+      
       
       sidebarHeader("Or search by Topic"),
       
