@@ -2,28 +2,14 @@
 from webcrawler.modules import *
 
 
+# Create Database Connection
+connection = database("hqDB")
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'dstHQraw.sqlite'
-)
-
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS header;
-
-    CREATE TABLE header (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        count INTEGER,
-        name  TEXT UNIQUE
-    )
-''')
-
-
-
+connection.create_header()
 
 print("Collecting HQ Headers:")
 print("----------------------")

@@ -1,26 +1,15 @@
-# Import Collector;
+# Import Modules;
 from webcrawler.modules import *
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'dstTIMESraw.sqlite'
-)
 
+# Create Database Connection
+connection = database("timesDB")
+
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS subheader;
-    
-    CREATE TABLE subheader (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        header_id INTEGER,
-        link TEXT,
-        name  TEXT,
-        html  TEXT
-    );
-''')
+connection.create_subheader()
 
 
 # Get Header ID to use as
@@ -48,7 +37,7 @@ header_id = list(flatten(header_id))
 
 # Subheaders;
 
-subheader = dstCollector(
+subheader = timesCollector(
     url     = "https://www.dst.dk/da/Statistik/dokumentation/Times",
     selector= 'div.cludoContent',
     do_ul   = False

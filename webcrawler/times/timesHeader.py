@@ -1,28 +1,15 @@
-# This program collects the headers
-# from DST TIMES
-
-# Import Collector;
+# Import Modules;
 from webcrawler.modules import *
 
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'dstTIMESraw.sqlite'
-)
+# Create Database Connection
+connection = database("timesDB")
 
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS header;
-
-    CREATE TABLE header (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        count INTEGER,
-        name  TEXT UNIQUE
-    )
-''')
+connection.create_header()
 
 
 

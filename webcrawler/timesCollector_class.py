@@ -4,10 +4,11 @@ from bs4 import BeautifulSoup
 import requests
 import sqlite3
 from bs4 import BeautifulSoup
+
 import re
 
 
-class dstCollector:
+class timesCollector:
 
     # This is the main container for
     # all values

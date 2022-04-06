@@ -1,30 +1,15 @@
-# This program collects the headers
-# from LPR
-
-# Import Collector;
+# Import Modules;
 from webcrawler.modules import *
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'lprRAW.sqlite'
-)
 
+# Create Database Connection
+connection = database("lprDB")
+
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS subheader;
-
-    CREATE TABLE subheader (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        header_id INTEGER,
-        url TEXT UNIQUE,
-        name  TEXT
-
-    )
-''')
-
+connection.create_subheader()
 
 
 # Read Headerdata:
@@ -51,7 +36,9 @@ with alive_bar(len(header_data)) as bar:
         id = row[0]
 
         # Extract Register URL
-        url = row[1]
+        url = row[3]
+
+
 
         # Extract Main Content
         subheaders = lprCollector(
@@ -67,7 +54,7 @@ with alive_bar(len(header_data)) as bar:
 
             cursor.execute(
                 '''
-                INSERT INTO subheader (header_id, url, name) VALUES (?, ?, ?)
+                INSERT INTO subheader (header_id, link, name) VALUES (?, ?, ?)
                 ''', (id, urls[i], names[i])
             )
 

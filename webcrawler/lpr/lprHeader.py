@@ -1,29 +1,15 @@
-# This program collects the headers
-# from LPR
-
-# Import Collector;
-import time
-
+# Import Modules;
 from webcrawler.modules import *
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'lprRAW.sqlite'
-)
 
+
+# Create Database Connection
+connection = database("lprDB")
+
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS header;
-
-    CREATE TABLE header (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        url TEXT UNIQUE,
-        name  TEXT UNIQUE
-        
-    )
-''')
+connection.create_header()
 
 # Collect all Registres
 ctx = ssl.create_default_context()
@@ -45,7 +31,7 @@ with alive_bar(len(names)) as bar:
     for i in range(len(names)):
         cursor.execute(
             '''
-            INSERT INTO header (url, name)
+            INSERT INTO header (link, name)
             VALUES (?, ?)
             ''', (urls[i], names[i])
         )

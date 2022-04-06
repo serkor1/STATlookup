@@ -4,17 +4,39 @@ rm(list = ls()); gc()
 version <- "Version b1.0"
 
 
-library(shiny,quietly = TRUE, warn.conflicts = FALSE)
-library(shinyWidgets,quietly = TRUE, warn.conflicts = FALSE)
-library(bs4Dash,quietly = TRUE, warn.conflicts = FALSE)
-library(dbplyr,quietly = TRUE, warn.conflicts = FALSE)
-library(tidyverse,quietly = TRUE, warn.conflicts = FALSE)
-library(data.table,quietly = TRUE, warn.conflicts = FALSE)
-library(shinyjs,quietly = TRUE, warn.conflicts = FALSE)
-library(rvest,quietly = TRUE, warn.conflicts = FALSE)
-library(glue,quietly = TRUE, warn.conflicts = FALSE)
-library(waiter,quietly = TRUE, warn.conflicts = FALSE)
 
+# Packages; ####
+# This script will automatically
+# intstall missing packages
+list.of.packages <- c(
+  "shiny",
+  "shinyWidgets",
+  "bs4Dash",
+  "dbplyr",
+  "tidyverse",
+  "data.table",
+  "shinyjs",
+  "rvest",
+  "glue",
+  "waiter"
+  )
+
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+library(shiny)
+library(shinyWidgets)
+library(bs4Dash)
+library(dbplyr)
+library(tidyverse)
+library(data.table)
+library(shinyjs)
+library(rvest)
+library(glue)
+library(waiter)
+
+
+# Load R functions; ¤¤¤¤
 list.files(
   path = "r/",
   full.names = TRUE,

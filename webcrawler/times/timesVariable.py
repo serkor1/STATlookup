@@ -1,32 +1,15 @@
-# Import Collector;
+# Import Modules;
 from webcrawler.modules import *
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'dstHQraw.sqlite'
-)
 
+# Create Database Connection
+connection = database("timesDB")
+
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-
-
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS variable;
-
-    CREATE TABLE variable (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        header_id       INTEGER,
-        subheader_id   INTEGER,
-        link TEXT UNIQUE,
-        var TEXT,
-        var_name TEXT,
-        html TEXT
-    )
-''')
-
-
+connection.create_variable()
 
 
 
@@ -37,9 +20,9 @@ subheader_data = cursor.execute(
     '''
 ).fetchall()
 
-
-print("Collecting HQ Variables:")
-print("------------------------")
+iteration = 0
+print("Extracting Variables:")
+print("=====================")
 with alive_bar(len(subheader_data)) as bar:
     for row in subheader_data:
 
@@ -47,13 +30,12 @@ with alive_bar(len(subheader_data)) as bar:
         header_id = row[1]
         url = row[2]
 
-
         # Generate Objects
-        variable = dstCollector(
+        variable = timesCollector(
             url         = url,
             selector    = 'div.cludoContent',
-            do_ul       = False,
-            is_variable = False
+            do_ul       = True,
+            is_variable = True
         )
 
         # Get Names
@@ -67,7 +49,7 @@ with alive_bar(len(subheader_data)) as bar:
 
         if len(additional_url) != 0:
             for url in additional_url:
-                additional_variable = dstCollector(
+                additional_variable = timesCollector(
                     url         = url,
                     selector    = 'div.cludoContent',
                     do_ul       = False,
@@ -141,3 +123,4 @@ with alive_bar(len(subheader_data)) as bar:
         connection.commit()
 
         bar()
+

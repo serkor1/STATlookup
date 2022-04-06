@@ -1,8 +1,5 @@
 from matplotlib.cbook import flatten
 from bs4 import BeautifulSoup
-import requests
-import sqlite3
-from bs4 import BeautifulSoup
 import re
 import urllib.request, urllib.parse, urllib.error
 import ssl

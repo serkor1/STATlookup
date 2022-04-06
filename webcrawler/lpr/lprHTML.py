@@ -1,21 +1,13 @@
-# This program collects the headers
-# from LPR
-
-# Import Collector;
+# Import Modules;
 from webcrawler.modules import *
 
 
+# Create Database Connection
+connection = database("lprDB")
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'lprRAW.sqlite'
-)
-
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
-
-# 2) Create New table
-
 
 
 # Read Headerdata:

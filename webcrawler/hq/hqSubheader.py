@@ -1,26 +1,15 @@
-
+# Import Modules;
 from webcrawler.modules import *
 
-# Connect to SQL;
-# 1) Establish Connection to the database
-connection = sqlite3.connect(
-    'dstHQraw.sqlite'
-)
+# Create Database Connection
+connection = database("hqDB")
 
+# Create Cursor and
+# initialise Header Data
 cursor = connection.cursor()
 
-# 2) Create New table
-cursor.executescript('''
-    DROP TABLE IF EXISTS subheader;
+connection.create_subheader()
 
-    CREATE TABLE subheader (
-        id     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        header_id INTEGER,
-        link TEXT,
-        name  TEXT,
-        html  TEXT
-    );
-''')
 
 # Get Header ID to use as
 # as foreing keys
@@ -48,15 +37,13 @@ for row in header_data:
 header_id = list(flatten(header_id))
 
 # Subheaders;
-subheader = dstCollector(
+subheader = timesCollector(
     url="https://www.dst.dk/da/TilSalg/Forskningsservice/Dokumentation/hoejkvalitetsvariable",
     selector='div.cludoContent',
     do_ul=False
 )
 
 subheader_names = subheader.get_name()
-
-
 subheader_url = subheader.get_url()
 
 subheader_content = subheader.get_content(
@@ -75,7 +62,8 @@ with alive_bar(len(subheader_names)) as bar:
 
         bar()
 
-    connection.commit()
+# Commit Connection
+connection.commit()
 
 
 
